@@ -1,220 +1,344 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { Heart, ArrowRight, Coins, Package, BookOpen, Users, Target, Calendar, Facebook, Twitter, Instagram, Mail, Phone, ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Navigation } from './Navigation';
 
-interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-}
-
-export const Card: React.FC<CardProps> = ({ children, className }) => {
+// Hero Section
+function Hero() {
   return (
-    <div className={`bg-white rounded-lg overflow-hidden ${className}`}>
-      {children}
+    <div className="relative overflow-hidden bg-gradient-to-b from-rose-50 to-white">
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-rose-50 to-transparent"></div>
+      </div>
+      <div className="relative pt-6 pb-16 sm:pb-24">
+        <div className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24 sm:px-6">
+          <div className="text-center">
+            <div className="flex justify-center">
+              <Heart className="h-12 w-12 text-rose-600 animate-pulse" />
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+              <span className="block">Connecting</span>
+              <span className="block text-rose-600">Kindness to Needs</span>
+            </h1>
+            <p className="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
+              Join us in creating a world where every act of kindness bridges the gap between those who can give and those in need. Together, we can make a difference.
+            </p>
+            <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
+              <div className="rounded-md shadow">
+                <a href="/donate" className="flex w-full items-center justify-center rounded-md border border-transparent bg-rose-600 px-8 py-3 text-base font-medium text-white hover:bg-rose-700 md:px-10 md:py-4 md:text-lg">
+                  Start Giving
+                </a>
+              </div>
+              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
+                <a href="/causes" className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-rose-600 hover:bg-gray-50 md:px-10 md:py-4 md:text-lg">
+                  Explore Causes <ArrowRight className="ml-2 h-5 w-5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-interface CardContentProps {
-  children: React.ReactNode;
-  className?: string;
 }
 
-export const CardContent: React.FC<CardContentProps> = ({ children, className }) => {
+// Donation Options Section
+const donationOptions = [
+  {
+    title: 'Monetary Donations',
+    description: 'Support causes with direct financial contributions, enabling organizations to address immediate needs and plan for long-term impact.',
+    icon: Coins,
+    color: 'text-amber-600',
+    bgColor: 'bg-amber-100'
+  },
+  {
+    title: 'Essential Items',
+    description: 'Donate clothing, food, and other essential items to help families and individuals in need of immediate support.',
+    icon: Package,
+    color: 'text-emerald-600',
+    bgColor: 'bg-emerald-100'
+  },
+  {
+    title: 'Educational Resources',
+    description: 'Contribute books and learning materials to support education initiatives and empower communities through knowledge.',
+    icon: BookOpen,
+    color: 'text-blue-600',
+    bgColor: 'bg-blue-100'
+  }
+];
+
+function DonationOptions() {
   return (
-    <div className={`p-4 ${className}`}>
-      {children}
+    <div className="bg-white py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Ways to Make a Difference
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
+            Choose how you'd like to contribute and make an impact in someone's life today.
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {donationOptions.map((option) => (
+            <div key={option.title} className="relative rounded-2xl border border-gray-200 p-8 shadow-sm hover:shadow-md transition-shadow">
+              <div className={`inline-flex rounded-xl ${option.bgColor} p-3`}>
+                <option.icon className={`h-6 w-6 ${option.color}`} />
+              </div>
+              <h3 className="mt-4 text-xl font-semibold text-gray-900">{option.title}</h3>
+              <p className="mt-2 text-base text-gray-500">{option.description}</p>
+              <div className="mt-6">
+                <a href={`/donate/${option.title.toLowerCase().replace(' ', '-')}`} className="inline-flex items-center text-rose-600 hover:text-rose-700">
+                  Learn more <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <a href="/donate" className="inline-flex items-center justify-center rounded-md border border-transparent bg-rose-600 px-8 py-3 text-base font-medium text-white hover:bg-rose-700">
+            Start Donating <Heart className="ml-2 h-5 w-5" />
+          </a>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
+// Featured Causes Section
+const causes = [
+  {
+    id: 1,
+    title: "Children's Education Fund",
+    organization: "Hope Foundation",
+    raised: 15000,
+    goal: 25000,
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2232&q=80",
+    category: "Education"
+  },
+  {
+    id: 2,
+    title: "Food for Families",
+    organization: "Community Outreach",
+    raised: 8000,
+    goal: 10000,
+    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
+    category: "Food"
+  },
+  {
+    id: 3,
+    title: "Shelter Renovation",
+    organization: "Safe Haven",
+    raised: 30000,
+    goal: 50000,
+    image: "https://images.unsplash.com/photo-1509099836639-18ba1795216d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2231&q=80",
+    category: "Shelter"
+  }
+];
 
-function Welcome() {
+function FeaturedCauses() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-blue-100">
-      {/* Navigation Bar */}
-      <nav className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex-shrink-0">
-              <a href="/welcome" className="text-2xl font-bold text-red-600">
-                <FontAwesomeIcon icon={faHeart} /> 
-                <span className="ml-2 text-2xl font-bold text-gray-900">Bridge of Hope</span>
-              </a>
-            </div>
-            <div className="hidden sm:flex sm:space-x-8">
-              <a href="#home" className="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">Home</a>
-              <a href="#about" className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-m font-medium">About</a>
-              <a href="#features" className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-m font-medium">Features</a>
-              <a href="#contact" className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-m font-medium">Contact</a>
-            </div>
-            <div className="hidden sm:flex sm:items-center">
-              <a href="/login" className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Login</a>
-            </div>
-          </div>
+    <div className="bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Featured Causes
+          </h2>
+          <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+            Make a difference today by supporting these verified causes
+          </p>
         </div>
-      </nav>
-      {/* Hero Section */}
-      <header className="relative h-screen bg-cover bg-center flex flex-col justify-center items-center text-center" style={{ backgroundImage: `url('https://img.freepik.com/free-photo/portrait-male-friends-sharing-affectionate-moment-friendship_23-2151310371.jpg?t=st=1737996752~exp=1738000352~hmac=674bd5a0c7e8a137d0eab883486448ad9ef185ff662f156bc9677a8739fcb4ec&w=996')` }}>
-      
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10">
-          <h1 className="text-white text-5xl font-bold mb-4">Transforming Giving: Easy, Transparent, and Private</h1>
-          <p className="text-white text-lg mb-8">Bolt AI connects donors with verified causes, ensuring seamless contributions in both monetary and non-monetary forms, while prioritizing transparency and donor anonymity.</p>
-          <div className="flex gap-4 justify-center">
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700">Start Donating</button>
-            <button className="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700">Register Your Organization</button>
-          </div>
-        </div>
-      </header>
 
-      {/* Key Features Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[{
-              title: 'Verified Causes',
-              description: 'All organizations and causes are vetted for authenticity.',
-              icon: '🔍'
-            }, {
-              title: 'Multiple Contribution Options',
-              description: 'Donate money, clothes, food, books, and more.',
-              icon: '📦'
-            }, {
-              title: 'Anonymity',
-              description: 'Choose to remain anonymous while donating.',
-              icon: '🕶️'
-            }, {
-              title: 'Transparency Reports',
-              description: 'Get real-time updates on fund usage.',
-              icon: '📊'
-            }].map((feature, index) => (
-              <Card key={index} className="shadow-lg">
-                <CardContent className="flex flex-col items-center text-center p-6">
-                  <div className="text-4xl mb-4">{feature.icon}</div>
-                  <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {causes.map((cause) => (
+            <div key={cause.id} className="flex flex-col rounded-lg shadow-lg overflow-hidden bg-white">
+              <div className="flex-shrink-0">
+                <img className="h-48 w-full object-cover" src={cause.image} alt={cause.title} />
+              </div>
+              <div className="flex-1 p-6 flex flex-col justify-between">
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-rose-600">
+                    {cause.category}
+                  </p>
+                  <div className="block mt-2">
+                    <p className="text-xl font-semibold text-gray-900">{cause.title}</p>
+                    <p className="mt-3 text-base text-gray-500">{cause.organization}</p>
+                  </div>
+                </div>
+                <div className="mt-6">
+                  <div className="relative pt-1">
+                    <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-rose-200">
+                      <div 
+                        style={{ width: `${(cause.raised/cause.goal)*100}%` }}
+                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-rose-600"
+                      ></div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-gray-600">
+                      ${cause.raised.toLocaleString()} raised
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      Goal: ${cause.goal.toLocaleString()}
+                    </div>
+                  </div>
+                  <a
+                    href={`/causes/${cause.id}`}
+                    className="mt-4 w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700"
+                  >
+                    Donate Now <ArrowUpRight className="ml-2 h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </div>
+  );
+}
 
-      {/* How It Works Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[{
-              step: 'Choose a Cause',
-              description: 'Browse verified organizations and campaigns.',
-              icon: '🎯'
-            }, {
-              step: 'Make a Contribution',
-              description: 'Donate money or items easily.',
-              icon: '💳'
-            }, {
-              step: 'Track Your Impact',
-              description: 'Receive transparent reports on how your donation is used.',
-              icon: '📈'
-            }].map((step, index) => (
-              <Card key={index} className="shadow-lg">
-                <CardContent className="flex flex-col items-center text-center p-6">
-                  <div className="text-4xl mb-4">{step.icon}</div>
-                  <h3 className="text-lg font-bold mb-2">{step.step}</h3>
-                  <p className="text-gray-600">{step.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+// Impact Section
+const stats = [
+  { label: 'Lives Impacted', value: '10,000+', icon: Users },
+  { label: 'Success Rate', value: '95%', icon: Target },
+  { label: 'Active Projects', value: '50+', icon: Calendar }
+];
+
+const testimonials = [
+  {
+    quote: "Bridge of Hope made it incredibly easy for me to support causes I care about. Their transparency and impact tracking give me confidence in my contributions.",
+    author: "Sarah M.",
+    role: "Regular Donor"
+  },
+  {
+    quote: "Thanks to the platform's support, we've been able to reach more people in need and make a bigger impact in our community.",
+    author: "David Chen",
+    role: "Non-profit Partner"
+  }
+];
+
+function ImpactSection() {
+  return (
+    <div className="bg-gray-50 py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Our Collective Impact
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
+            Together, we're creating lasting change in communities around the world.
+          </p>
         </div>
-      </section>
 
-      {/* Impact Statistics Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Our Impact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            {[{
-              label: 'Total Donations',
-              value: '25,000+'
-            }, {
-              label: 'Causes Supported',
-              value: '500+'
-            }, {
-              label: 'Donors',
-              value: '10,000+'
-            }].map((stat, index) => (
-              <div key={index} className="bg-gray-100 p-6 rounded-lg shadow">
-                <h3 className="text-2xl font-bold text-blue-600 mb-2">{stat.value}</h3>
-                <p className="text-gray-600">{stat.label}</p>
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3">
+          {stats.map((stat) => (
+            <div key={stat.label} className="relative rounded-lg bg-white p-8 text-center shadow-sm">
+              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-rose-500 to-transparent"></div>
+              <stat.icon className="mx-auto h-8 w-8 text-rose-600" />
+              <p className="mt-4 text-4xl font-bold tracking-tight text-gray-900">{stat.value}</p>
+              <p className="mt-2 text-base text-gray-500">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.author} className="relative rounded-lg bg-white p-8 shadow-sm">
+                <div className="absolute inset-0 rounded-lg border-2 border-gray-200"></div>
+                <div className="relative">
+                  <p className="text-lg text-gray-600">"{testimonial.quote}"</p>
+                  <div className="mt-6">
+                    <p className="font-semibold text-gray-900">{testimonial.author}</p>
+                    <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-          <div className="mt-8">
-            <h3 className="text-xl font-bold text-center mb-4">What Our Users Say</h3>
-            <div className="carousel flex gap-4 overflow-auto">
-              {["Bolt AI makes donating so easy and secure!", "I love how I can track my impact.", "Their anonymity feature is a game changer!"].map((testimonial, index) => (
-                <div key={index} className="p-4 bg-white rounded shadow-md text-center">{testimonial}</div>
-              ))}
-            </div>
-          </div>
         </div>
-      </section>
-
-      {/* Get Involved Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Get Involved</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[{
-              title: 'Donors',
-              description: 'Start contributing to meaningful causes.',
-              icon: '🤝'
-            }, {
-              title: 'Organizations',
-              description: 'Register your cause to reach more donors.',
-              icon: '🏢'
-            }, {
-              title: 'Volunteers',
-              description: 'Sign up to help with logistics and more.',
-              icon: '🛠️'
-            }].map((option, index) => (
-              <Card key={index} className="shadow-lg">
-                <CardContent className="flex flex-col items-center text-center p-6">
-                  <div className="text-4xl mb-4">{option.icon}</div>
-                  <h3 className="text-lg font-bold mb-2">{option.title}</h3>
-                  <p className="text-gray-600">{option.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Section */}
-      <footer className="bg-gray-900 py-6 text-white">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <div className="flex flex-wrap justify-center gap-6 mb-4">
-            <a href="#" className="text-blue-300 hover:text-blue-500">FAQ</a>
-            <a href="#" className="text-blue-300 hover:text-blue-500">Contact Us</a>
-            <a href="#" className="text-blue-300 hover:text-blue-500">Privacy Policy</a>
-            <a href="#" className="text-blue-300 hover:text-blue-500">Terms of Use</a>
-          </div>
-          <div className="mb-4">Follow us on:
-            <div className="flex justify-center gap-4 mt-2">
-              <a href="#" className="text-blue-300 hover:text-blue-500">Facebook</a>
-              <a href="#" className="text-blue-300 hover:text-blue-500">Twitter</a>
-              <a href="#" className="text-blue-300 hover:text-blue-500">LinkedIn</a>
-            </div>
-          </div>
-          <p>&copy; 2025 Bolt AI. All rights reserved.</p>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 }
 
-export default Welcome;
+// Footer Section
+function Footer() {
+  return (
+    <footer className="bg-gray-900">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <div className="flex items-center">
+              <Heart className="h-8 w-8 text-rose-500" />
+              <span className="ml-2 text-xl font-bold text-white">Bridge of Hope</span>
+            </div>
+            <p className="mt-4 text-base text-gray-400">
+              Connecting kindness to needs, one donation at a time.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Navigation</h3>
+            <ul className="mt-4 space-y-4">
+              <li><Link to="/causes" className="text-base text-gray-300 hover:text-white">Causes</Link></li>
+              <li><Link to="/donate" className="text-base text-gray-300 hover:text-white">Donate</Link></li>
+              <li><Link to="/campaigns" className="text-base text-gray-300 hover:text-white">Campaigns</Link></li>
+              <li><Link to="/about" className="text-base text-gray-300 hover:text-white">About Us</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Contact</h3>
+            <ul className="mt-4 space-y-4">
+              <li className="flex items-center">
+                <Mail className="h-5 w-5 text-gray-400" />
+                <a href="mailto:contact@bridgeofhope.org" className="ml-2 text-base text-gray-300 hover:text-white">
+                  contact@bridgeofhope.org
+                </a>
+              </li>
+              <li className="flex items-center">
+                <Phone className="h-5 w-5 text-gray-400" />
+                <span className="ml-2 text-base text-gray-300">+1 (555) 123-4567</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Follow Us</h3>
+            <div className="mt-4 flex space-x-6">
+              <a href="#" className="text-gray-400 hover:text-gray-300">
+                <Facebook className="h-6 w-6" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-gray-300">
+                <Twitter className="h-6 w-6" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-gray-300">
+                <Instagram className="h-6 w-6" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 border-t border-gray-800 pt-8">
+          <p className="text-base text-gray-400 text-center">
+            © {new Date().getFullYear()} Bridge of Hope. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// Main Welcome Component
+export function Welcome() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Navigation />
+      <Hero />
+      <DonationOptions />
+      <FeaturedCauses />
+      <ImpactSection />
+      <Footer />
+    </div>
+  );
+}
